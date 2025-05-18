@@ -1,0 +1,386 @@
+{% extends "layout.html" %}
+
+{% block title %}Career Recommendations - CareerCraft AI{% endblock %}
+
+{% block content %}
+{% if results %}
+<div class="row mb-4">
+    <div class="col-lg-10 mx-auto text-center">
+        <h1 class="mb-3">Your Career Recommendations</h1>
+        <p class="lead">Based on your assessment, we've identified the following career paths for you</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <!-- Career Matches Card -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h4 class="card-title mb-4">Recommended Career Paths</h4>
+                
+                <div class="row">
+                    <div class="col-lg-4 mb-4 mb-lg-0">
+                        <div class="position-relative">
+                            <canvas id="careerMatchChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-8">
+                        <div id="recommendedCareers">
+                            {% for career in results.recommended_careers %}
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h5 class="card-title mb-0">{{ career.title }}</h5>
+                                        <span class="badge bg-primary">{{ career.match_percentage }}% Match</span>
+                                    </div>
+                                    <p class="card-text">{{ career.description }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Strengths & Areas to Develop Card -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <div class="row">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <h4 class="card-title mb-3">Your Strengths</h4>
+                        <ul class="list-group list-group-flush">
+                            {% for strength in results.strengths %}
+                            <li class="list-group-item bg-transparent">
+                                <i class="fas fa-check-circle text-success me-2"></i> {{ strength }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h4 class="card-title mb-3">Areas to Develop</h4>
+                        <ul class="list-group list-group-flush">
+                            {% for area in results.development_areas %}
+                            <li class="list-group-item bg-transparent">
+                                <i class="fas fa-arrow-circle-up text-info me-2"></i> {{ area }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Plan Card -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h4 class="card-title mb-4">Get Actionable Career Suggestions</h4>
+                <p>Want specific recommendations for your career development? Get personalized suggestions including:</p>
+                
+                <div class="row text-center g-3 my-4">
+                    <div class="col-md-3">
+                        <div class="p-3 rounded bg-dark">
+                            <i class="fas fa-briefcase fa-2x text-primary mb-3"></i>
+                            <h6>Job Descriptions</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 rounded bg-dark">
+                            <i class="fas fa-certificate fa-2x text-warning mb-3"></i>
+                            <h6>Certifications</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 rounded bg-dark">
+                            <i class="fas fa-building fa-2x text-success mb-3"></i>
+                            <h6>Companies</h6>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 rounded bg-dark">
+                            <i class="fas fa-graduation-cap fa-2x text-info mb-3"></i>
+                            <h6>Learning Paths</h6>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="getSuggestionsBtn" class="btn btn-primary btn-lg">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        Get Detailed Suggestions
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Suggestions Results Card (initially hidden) -->
+        <div id="suggestionsContainer" class="d-none">
+            <!-- Job Descriptions -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4">Recommended Job Descriptions</h4>
+                    <div id="jobDescriptions" class="accordion"></div>
+                </div>
+            </div>
+            
+            <!-- Certifications -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4">Recommended Certifications</h4>
+                    <div id="certifications" class="row g-3"></div>
+                </div>
+            </div>
+            
+            <!-- Companies -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4">Companies to Consider</h4>
+                    <div id="companies" class="row g-3"></div>
+                </div>
+            </div>
+            
+            <!-- Learning Resources -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4">Learning Resources</h4>
+                    <div id="learningResources" class="row g-3"></div>
+                </div>
+            </div>
+            
+            <!-- Industry Insights -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h4 class="card-title mb-4">Industry Insights</h4>
+                    <ul id="industryInsights" class="list-group list-group-flush"></ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{{ url_for('cat') }}" class="btn btn-outline-secondary">Retake Assessment</a>
+            <a href="{{ url_for('resume') }}" class="btn btn-primary ms-2">Create Optimized Resume</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Store results data for JS access
+    const resultsData = {{ results|tojson }};
+</script>
+{% else %}
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-5">
+                <i class="fas fa-exclamation-circle fa-3x text-warning mb-3"></i>
+                <h3 class="mb-3">No Assessment Results</h3>
+                <p class="lead mb-4">You haven't completed the Career Assistance Test yet.</p>
+                <a href="{{ url_for('cat') }}" class="btn btn-primary btn-lg">Take Assessment Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if results %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Create domain matches chart
+    const ctx = document.getElementById('careerMatchChart').getContext('2d');
+    const domainMatches = resultsData.domain_matches || [];
+    
+    // Sort by percentage in descending order
+    domainMatches.sort((a, b) => b.percentage - a.percentage);
+    
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: domainMatches.map(domain => domain.domain),
+            datasets: [{
+                data: domainMatches.map(domain => domain.percentage),
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: 'white'
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Career Domain Matches',
+                    color: 'white'
+                }
+            }
+        }
+    });
+    
+    // Handle suggestions button
+    document.getElementById('getSuggestionsBtn').addEventListener('click', function() {
+        const button = this;
+        const spinner = button.querySelector('.spinner-border');
+        
+        // Show loading state
+        spinner.classList.remove('d-none');
+        button.disabled = true;
+        
+        // Call API to get suggestions
+        fetch('/api/suggestions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(resultsData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Display job descriptions
+            const jobDescriptionsContainer = document.getElementById('jobDescriptions');
+            jobDescriptionsContainer.innerHTML = '';
+            
+            data.job_descriptions.forEach((job, index) => {
+                const jobCard = document.createElement('div');
+                jobCard.classList.add('accordion-item');
+                jobCard.innerHTML = `
+                    <h2 class="accordion-header" id="heading${index}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#collapse${index}" aria-expanded="false" aria-controls="collapse${index}">
+                            ${job.title}
+                        </button>
+                    </h2>
+                    <div id="collapse${index}" class="accordion-collapse collapse" aria-labelledby="heading${index}">
+                        <div class="accordion-body">
+                            <p>${job.description}</p>
+                            <h6 class="mt-3">Requirements:</h6>
+                            <ul>
+                                ${job.requirements.map(req => `<li>${req}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                jobDescriptionsContainer.appendChild(jobCard);
+            });
+            
+            // Display certifications
+            const certificationsContainer = document.getElementById('certifications');
+            certificationsContainer.innerHTML = '';
+            
+            data.certifications.forEach(cert => {
+                const certCard = document.createElement('div');
+                certCard.classList.add('col-md-6', 'col-lg-4');
+                certCard.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${cert.name}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">${cert.provider}</h6>
+                            <p class="card-text">${cert.description}</p>
+                            <span class="badge ${getDifficultyBadgeClass(cert.difficulty)}">${cert.difficulty}</span>
+                        </div>
+                    </div>
+                `;
+                certificationsContainer.appendChild(certCard);
+            });
+            
+            // Display companies
+            const companiesContainer = document.getElementById('companies');
+            companiesContainer.innerHTML = '';
+            
+            data.companies.forEach(company => {
+                const companyCard = document.createElement('div');
+                companyCard.classList.add('col-md-6', 'col-lg-4');
+                companyCard.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${company.name}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">${company.industry}</h6>
+                            <p class="card-text">${company.why_good_fit}</p>
+                        </div>
+                    </div>
+                `;
+                companiesContainer.appendChild(companyCard);
+            });
+            
+            // Display learning resources
+            const resourcesContainer = document.getElementById('learningResources');
+            resourcesContainer.innerHTML = '';
+            
+            data.learning_resources.forEach(resource => {
+                const resourceCard = document.createElement('div');
+                resourceCard.classList.add('col-md-6');
+                resourceCard.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${resource.name}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">${resource.type}</h6>
+                            <p class="card-text">${resource.description}</p>
+                            ${resource.link ? `<a href="${resource.link}" target="_blank" class="btn btn-sm btn-outline-primary">View Resource</a>` : ''}
+                        </div>
+                    </div>
+                `;
+                resourcesContainer.appendChild(resourceCard);
+            });
+            
+            // Display industry insights
+            const insightsContainer = document.getElementById('industryInsights');
+            insightsContainer.innerHTML = '';
+            
+            data.industry_insights.forEach(insight => {
+                const insightItem = document.createElement('li');
+                insightItem.classList.add('list-group-item', 'bg-transparent');
+                insightItem.innerHTML = `<i class="fas fa-lightbulb text-warning me-2"></i> ${insight}`;
+                insightsContainer.appendChild(insightItem);
+            });
+            
+            // Show the suggestions container
+            document.getElementById('suggestionsContainer').classList.remove('d-none');
+            
+            // Reset button state
+            spinner.classList.add('d-none');
+            button.disabled = false;
+            button.textContent = 'Refresh Suggestions';
+            
+            // Scroll to suggestions
+            document.getElementById('suggestionsContainer').scrollIntoView({ behavior: 'smooth' });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Reset button state
+            spinner.classList.add('d-none');
+            button.disabled = false;
+            alert('Error fetching suggestions. Please try again.');
+        });
+    });
+    
+    // Helper function for certification difficulty badges
+    function getDifficultyBadgeClass(difficulty) {
+        switch(difficulty.toLowerCase()) {
+            case 'beginner':
+                return 'bg-success';
+            case 'intermediate':
+                return 'bg-warning';
+            case 'advanced':
+                return 'bg-danger';
+            default:
+                return 'bg-secondary';
+        }
+    }
+});
+</script>
+{% endif %}
+{% endblock %}

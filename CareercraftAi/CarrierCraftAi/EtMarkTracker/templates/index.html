@@ -1,0 +1,284 @@
+{% extends "layout.html" %}
+
+{% block title %}CareerCraft AI - Your Career Co-Pilot{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-5">
+    <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-3">CareerCraft AI</h1>
+        <h2 class="fs-3 text-info mb-4">Your AI-powered Career Co-Pilot</h2>
+        <p class="lead mb-4">
+            Navigate your career journey with confidence using our AI-powered tools designed to help students and job seekers make informed decisions.
+        </p>
+        <div class="d-grid gap-3 d-md-flex">
+            <a href="{{ url_for('resume') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-file-alt me-2"></i>Create Resume
+            </a>
+            <a href="{{ url_for('cat') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-compass me-2"></i>Take Career Test
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-6 mt-5 mt-lg-0 text-center">
+        <div class="hero-image p-4">
+            <i class="fas fa-brain hero-icon text-info"></i>
+            <div class="hero-blob bg-dark"></div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<div class="row text-center g-4 my-5">
+    <h2 class="mb-4">Our AI-Powered Tools</h2>
+
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-file-alt fa-2x text-primary"></i>
+                </div>
+                <h5 class="card-title">Resume Generator</h5>
+                <p class="card-text">Create professional, ATS-optimized resumes with our AI-powered builder.</p>
+                <a href="{{ url_for('resume') }}" class="btn btn-sm btn-outline-primary mt-2">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-check-circle fa-2x text-success"></i>
+                </div>
+                <h5 class="card-title">ATS Checker</h5>
+                <p class="card-text">Evaluate your existing resume against ATS systems with recommendations.</p>
+                <a href="{{ url_for('ats') }}" class="btn btn-sm btn-outline-success mt-2">
+                    Check Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-compass fa-2x text-info"></i>
+                </div>
+                <h5 class="card-title">Career Test (CAT)</h5>
+                <p class="card-text">Discover suitable career paths based on your interests and strengths.</p>
+                <a href="{{ url_for('cat') }}" class="btn btn-sm btn-outline-info mt-2">
+                    Take Test
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-lightbulb fa-2x text-warning"></i>
+                </div>
+                <h5 class="card-title">Career Suggestions</h5>
+                <p class="card-text">Get actionable recommendations for your career development.</p>
+                <a href="{{ url_for('cat') }}" class="btn btn-sm btn-outline-warning mt-2">
+                    Get Insights
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-road fa-2x text-info"></i>
+                </div>
+                <h5 class="card-title">Career Roadmap</h5>
+                <p class="card-text">Get a personalized career development path with key milestones.</p>
+                <a href="#" class="btn btn-sm btn-outline-info mt-2" data-bs-toggle="modal" data-bs-target="#roadmapModal">
+                    View Roadmap
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-question-circle fa-2x text-warning"></i>
+                </div>
+                <h5 class="card-title">Interview Prep</h5>
+                <p class="card-text">AI-generated interview questions for your target role.</p>
+                <a href="#" class="btn btn-sm btn-outline-warning mt-2" data-bs-toggle="modal" data-bs-target="#interviewModal">
+                    Practice Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="feature-icon mb-3">
+                    <i class="fab fa-linkedin fa-2x text-primary"></i>
+                </div>
+                <h5 class="card-title">Profile Import</h5>
+                <p class="card-text">Import your professional data from LinkedIn or GitHub.</p>
+                <a href="#" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#importModal">
+                    Import Profile
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<div class="row align-items-center my-5">
+    <div class="col-lg-6">
+        <h2 class="mb-4">Why CareerCraft AI?</h2>
+        <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i> AI-powered resume optimization for better job application results</li>
+            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i> Personalized career guidance based on your unique profile</li>
+            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i> Real-time ATS evaluation with actionable improvement tips</li>
+            <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i> Data-driven career recommendations aligned with your strengths</li>
+        </ul>
+    </div>
+    <div class="col-lg-6">
+        <div class="ratio ratio-16x9">
+            <div class="p-3 rounded bg-dark">
+                <div class="d-flex justify-content-center align-items-center h-100">
+                    <div class="testimonial text-center p-4">
+                        <i class="fas fa-quote-left fa-2x text-muted mb-3"></i>
+                        <p class="mb-4">CareerCraft AI democratizes career navigation, making self-awareness and job preparedness accessible to all students and job seekers.</p>
+                        <div class="fw-bold">- HackVyuha 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Career Roadmap Modal -->
+<div class="modal fade" id="roadmapModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Career Roadmap Generator</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="roadmapForm">
+                    <div class="mb-3">
+                        <label class="form-label">Select Career Path</label>
+                        <select class="form-select" name="career_path" required>
+                            <option value="">Choose a career path...</option>
+                            <option value="software_development">Software Development</option>
+                            <option value="data_science">Data Science</option>
+                            <option value="cloud_computing">Cloud Computing</option>
+                            <option value="cybersecurity">Cybersecurity</option>
+                            <option value="product_management">Product Management</option>
+                        </select>
+                    </div>
+                </form>
+                <div id="roadmapResult" class="mt-4 d-none">
+                    <!-- Results will be displayed here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="generateRoadmap">Generate Roadmap</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Interview Prep Modal -->
+<div class="modal fade" id="interviewModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Interview Question Generator</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="interviewForm">
+                    <div class="mb-3">
+                        <label class="form-label">Select Domain</label>
+                        <select class="form-select" name="domain" required>
+                            <option value="">Choose a domain...</option>
+                            <option value="frontend">Frontend Development</option>
+                            <option value="backend">Backend Development</option>
+                            <option value="fullstack">Full Stack Development</option>
+                            <option value="devops">DevOps</option>
+                            <option value="data_science">Data Science</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Number of Questions</label>
+                        <input type="number" class="form-control" name="num_questions" value="10" min="5" max="20">
+                    </div>
+                </form>
+                <div id="interviewResult" class="mt-4 d-none">
+                    <!-- Results will be displayed here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="generateQuestions">Generate Questions</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Profile Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Import Professional Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="importForm">
+                    <div class="mb-3">
+                        <label class="form-label">Select Platform</label>
+                        <select class="form-select" name="platform" required>
+                            <option value="">Choose a platform...</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="github">GitHub</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Profile URL</label>
+                        <input type="url" class="form-control" name="profile_url" required>
+                    </div>
+                </form>
+                <div id="importResult" class="mt-4 d-none">
+                    <!-- Results will be displayed here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="importProfile">Import Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5 pt-4">
+    <h2 class="mb-4">Start Your Career Journey Today</h2>
+    <p class="lead mb-4">Navigate the evolving job market with confidence using our AI-powered tools</p>
+    <a href="{{ url_for('cat') }}" class="btn btn-primary btn-lg px-4 py-3">
+        <i class="fas fa-rocket me-2"></i> Launch Your Career
+    </a>
+</div>
+{% endblock %}

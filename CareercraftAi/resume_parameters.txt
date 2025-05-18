@@ -1,0 +1,70 @@
+SAMPLE JOB DESCRIPTION
+Position: Senior Software Developer
+Company: TechCorp Inc.
+Location: San Francisco, CA
+
+About the Role:
+We are seeking an experienced Senior Software Developer to lead our cloud infrastructure and microservices initiatives. The ideal candidate will have extensive experience in full-stack development, cloud architecture, and team leadership.
+
+Key Responsibilities:
+• Lead development of cloud-native microservices and distributed systems
+• Manage and mentor a team of developers across multiple time zones
+• Implement and maintain CI/CD pipelines and automated testing frameworks
+• Optimize system performance and database efficiency
+• Collaborate with cross-functional teams to deliver high-impact solutions
+
+Requirements:
+• 8+ years of experience in software development
+• Strong expertise in Python, JavaScript, Java, and Go
+• Proven experience with React, Node.js, Django, and Spring Boot
+• Extensive knowledge of AWS, GCP, and Azure cloud platforms
+• Experience with Docker, Kubernetes, and microservices architecture
+• Track record of leading successful development teams
+• M.S. in Computer Science or related field
+
+Preferred Qualifications:
+• AWS/GCP certifications
+• Experience with MongoDB and distributed databases
+• Contribution to open-source projects
+• Strong analytical and problem-solving skills
+
+-------------------
+
+MATCHING RESUME
+JOHN SMITH
+Senior Software Developer
+San Francisco, CA | john.smith@email.com | (555) 123-4567
+linkedin.com/in/johnsmith | github.com/johnsmith
+
+PROFESSIONAL SUMMARY
+Results-driven Software Developer with 8+ years of experience in full-stack development, specialized in cloud architecture and agile methodologies. Led multiple successful projects delivering high-performance applications serving 1M+ users.
+
+WORK EXPERIENCE
+Senior Software Developer | TechCorp Inc. | 2020-Present
+• Led development of cloud-native microservices improving system efficiency by 75%
+• Managed team of 6 developers across 3 time zones delivering 15 major releases
+• Implemented automated testing framework reducing bugs by 60%
+• Mentored 4 junior developers in modern development practices
+
+Software Engineer | DataTech Solutions | 2018-2020
+• Developed scalable APIs handling 500K+ daily requests
+• Optimized database performance reducing query times by 85%
+• Implemented CI/CD pipeline reducing deployment time by 70%
+• Created data analytics dashboard increasing client satisfaction by 45%
+
+EDUCATION
+M.S. Computer Science | Stanford University | 2018
+• GPA: 3.9/4.0
+• Focus: Distributed Systems, Cloud Computing
+
+TECHNICAL SKILLS
+• Languages: Python, JavaScript, Java, Go
+• Frameworks: React, Node.js, Django, Spring Boot
+• Cloud: AWS, GCP, Azure, Kubernetes
+• Tools: Git, Docker, Jenkins, Terraform
+
+CERTIFICATIONS
+• AWS Solutions Architect Professional
+• Google Cloud Professional Developer
+• MongoDB Certified Developer
+• Certified Kubernetes Administrator

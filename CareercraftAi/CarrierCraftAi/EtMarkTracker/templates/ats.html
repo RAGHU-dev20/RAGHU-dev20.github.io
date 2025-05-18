@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block title %}ATS Resume Checker - CareerCraft AI{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-lg-8 mx-auto text-center">
+        <h1 class="mb-3">ATS Resume Checker</h1>
+        <p class="lead mb-0">Test if your resume will pass Applicant Tracking Systems</p>
+        <p class="text-muted">Get instant feedback and improvement suggestions</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h4 class="card-title mb-3">Upload Your Resume</h4>
+                <p class="text-muted mb-4">Our AI will analyze your resume and provide feedback on its ATS-compatibility</p>
+                
+                <form id="atsForm" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="resumeFile" class="form-label">Upload Resume (PDF or Word document)</label>
+                        <input class="form-control" type="file" id="resumeFile" name="resume" accept=".pdf,.doc,.docx,.txt" required>
+                        <div class="form-text">For best results, upload a text-based PDF or Word document.</div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="jobDescription" class="form-label">Job Description</label>
+                        <textarea class="form-control" id="jobDescription" name="jobDescription" rows="4" placeholder="Paste the job description here" required></textarea>
+                        <div class="form-text">Paste the job description to compare against your resume.</div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" id="evaluateResumeBtn" class="btn btn-primary">
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            Evaluate Resume
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div id="atsResults" class="d-none">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h4 class="card-title">ATS Evaluation Results</h4>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-4 text-center mb-4 mb-md-0">
+                            <div class="ats-score-container">
+                                <h5>ATS Compatibility Score</h5>
+                                <div class="score-circle large-score">
+                                    <h1 id="atsScore" class="display-4"></h1>
+                                    <small>out of 10</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <h5>Resume Strengths</h5>
+                            <ul id="strengths" class="list-group list-group-flush mb-4"></ul>
+                            
+                            <h5>Missing Elements</h5>
+                            <ul id="missingElements" class="list-group list-group-flush"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h4 class="card-title">Improvement Suggestions</h4>
+                    <ul id="improvementSuggestions" class="list-group list-group-flush"></ul>
+                </div>
+            </div>
+            
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="card-title">Formatting Issues</h4>
+                    <ul id="formattingIssues" class="list-group list-group-flush"></ul>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="{{ url_for('resume') }}" class="btn btn-primary">Create Optimized Resume</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/ats.js') }}"></script>
+{% endblock %}

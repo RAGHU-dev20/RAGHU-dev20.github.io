@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+
+{% block title %}Resume Builder - CareerCraft AI{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-lg-8 mx-auto text-center">
+        <h1 class="mb-3">AI Resume Builder</h1>
+        <p class="lead mb-0">Create an ATS-optimized resume in minutes</p>
+        <p class="text-muted">Our AI will help you craft a professional resume tailored for your target role</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <form id="resumeForm" class="needs-validation" novalidate>
+                    <!-- Personal Information -->
+                    <h4 class="mb-3">Personal Information</h4>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                            <div class="invalid-feedback">Please enter your full name.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="invalid-feedback">Please enter a valid email address.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                            <div class="invalid-feedback">Please enter your phone number.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="City, State" required>
+                            <div class="invalid-feedback">Please enter your location.</div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Summary -->
+                    <h4 class="mb-3">Professional Summary</h4>
+                    <div class="mb-4">
+                        <textarea class="form-control" id="summary" name="summary" rows="4" placeholder="A brief overview of your professional background and career goals" required></textarea>
+                        <div class="invalid-feedback">Please provide a professional summary.</div>
+                    </div>
+
+                    <!-- Target Position -->
+                    <h4 class="mb-3">Target Position</h4>
+                    <div class="mb-4">
+                        <input type="text" class="form-control" id="target_position" name="target_position" placeholder="The job title you're applying for" required>
+                        <div class="invalid-feedback">Please specify your target position.</div>
+                        <div class="form-text">Specifying your target position helps tailor your resume for ATS optimization.</div>
+                    </div>
+
+                    <!-- Job Description -->
+                    <h4 class="mb-3">Job Description</h4>
+                    <div class="mb-4">
+                        <textarea class="form-control" id="job_description" name="job_description" rows="4" placeholder="Paste the full job description here" required></textarea>
+                        <div class="invalid-feedback">Please provide the job description.</div>
+                        <div class="form-text">Adding the job description helps optimize your resume for ATS scanning.</div>
+                    </div>
+
+                    <!-- Education -->
+                    <h4 class="mb-3">Education</h4>
+                    <div class="mb-4">
+                        <textarea class="form-control" id="education" name="education" rows="4" placeholder="List your educational background (Degree, Institution, Year, GPA if relevant)" required></textarea>
+                        <div class="invalid-feedback">Please provide your educational background.</div>
+                        <div class="form-text">Format: Degree, Institution, Year, GPA (if relevant)</div>
+                    </div>
+
+                    <!-- Work Experience -->
+                    <h4 class="mb-3">Work Experience</h4>
+                    <div class="mb-4">
+                        <textarea class="form-control" id="experience" name="experience" rows="6" placeholder="Describe your work experience with job titles, companies, dates, and accomplishments" required></textarea>
+                        <div class="invalid-feedback">Please provide your work experience.</div>
+                        <div class="form-text">Include position titles, company names, dates, and key achievements</div>
+                    </div>
+
+                    <!-- Skills -->
+                    <h4 class="mb-3">Skills</h4>
+                    <div class="mb-4">
+                        <textarea class="form-control" id="skills" name="skills" rows="4" placeholder="List relevant technical and soft skills" required></textarea>
+                        <div class="invalid-feedback">Please list your skills.</div>
+                        <div class="form-text">Include both technical skills and soft skills relevant to your target position</div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                        <button type="submit" id="generateResumeBtn" class="btn btn-primary">
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            Generate Resume
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h4>Live Preview</h4>
+                <div id="livePreview" class="resume-preview mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Resume Result Modal -->
+<div class="modal fade" id="resumeModal" tabindex="-1" aria-labelledby="resumeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resumeModalLabel">Your ATS-Optimized Resume</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div id="resumeContent" class="border p-4 bg-white text-dark"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">ATS Score</h5>
+                                <div class="text-center">
+                                    <div class="score-circle">
+                                        <h2 id="keywordScore" class="mb-0"></h2>
+                                        <small>out of 10</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Improvement Tips</h5>
+                                <ul id="improvementTips" class="list-group list-group-flush"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="printResumeBtn">Print/Save PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/resume.js') }}"></script>
+{% endblock %}

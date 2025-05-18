@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block title %}Career Assistance Test - CareerCraft AI{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-lg-8 mx-auto text-center">
+        <h1 class="mb-3">Career Assistance Test (CAT)</h1>
+        <p class="lead mb-0">Discover the best career paths for your unique profile</p>
+        <p class="text-muted">Our AI-powered assessment will analyze your interests, strengths, and goals</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Introduction Card -->
+        <div id="introCard" class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4 text-center">
+                <i class="fas fa-compass fa-3x text-info mb-3"></i>
+                <h4 class="card-title">Begin Your Career Discovery Journey</h4>
+                <p class="mb-4">This intelligent assessment will ask personalized questions about your interests, skills, and preferences to help identify suitable career paths.</p>
+                <button id="startCatBtn" class="btn btn-primary btn-lg">Start Assessment</button>
+            </div>
+        </div>
+        
+        <!-- Questions Card -->
+        <div id="questionsCard" class="card border-0 shadow-sm mb-4 d-none">
+            <div class="card-body p-4">
+                <div class="progress mb-4">
+                    <div id="testProgress" class="progress-bar bg-info" role="progressbar" style="width: 0%"></div>
+                </div>
+                
+                <form id="catForm">
+                    <div id="questionsContainer">
+                        <!-- Questions will be dynamically inserted here -->
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" id="prevBtn" class="btn btn-outline-secondary d-none">
+                            <i class="fas fa-arrow-left me-2"></i>Previous
+                        </button>
+                        <button type="button" id="nextBtn" class="btn btn-primary">
+                            <span id="nextBtnText">Next</span>
+                            <i class="fas fa-arrow-right ms-2"></i>
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Processing Results Card -->
+        <div id="processingCard" class="card border-0 shadow-sm mb-4 d-none">
+            <div class="card-body p-4 text-center">
+                <div class="py-5">
+                    <div class="spinner-border text-primary mb-4" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h4>Analyzing Your Responses</h4>
+                    <p class="text-muted">Our AI is processing your answers to generate personalized career recommendations...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Preview Card -->
+        <div id="resultsPreviewCard" class="card border-0 shadow-sm mb-4 d-none">
+            <div class="card-body p-4 text-center">
+                <i class="fas fa-clipboard-check fa-3x text-success mb-3"></i>
+                <h4 class="card-title">Assessment Complete!</h4>
+                <p class="mb-4">Your career profile has been analyzed and recommendations are ready.</p>
+                <a href="{{ url_for('career') }}" class="btn btn-success btn-lg">View Career Recommendations</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/cat.js') }}"></script>
+{% endblock %}
